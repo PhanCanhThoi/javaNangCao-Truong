@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;XoSo/src/main/webapp/XoSo.jsp&apos; to &apos;Xskt.jsp&apos;" description="Rename resource &apos;XoSo.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/webapp/XoSo.jsp" name="Xskt.jsp" stamp="1726532621634" updateReferences="true"/>
+</session>

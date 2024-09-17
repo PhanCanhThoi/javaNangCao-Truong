@@ -1,0 +1,8 @@
+INDEX VERSION 1.134+D:\21T1020080_PCThoi\CodeJava\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+979897561.index
+3719075377.index
+1972427697.index
+857435085.index
+1597872943.index
+2411551877.index

@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+hom nay ngay thang nam
+chon ngay xem 
+<select>
+	<option>
+	</option>
+</select>
+
+chon thang xem 
+<select>
+	<option>
+	</option>
+</select>
+
+chon nam xem 
+-- 10 nam gan day
+<select>
+	<option>
+	</option>
+</select>
+
+</body>
+</html>
