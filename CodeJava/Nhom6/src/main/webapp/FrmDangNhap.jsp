@@ -10,7 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="StyleDn.css">
 </head>
 <body style="background-color: #0459ae;">
-	<div class="slider mx-auto">
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="slider mx-auto">
 	<form style="background-color: white;"  class="from-slider mx-auto border border-info-subtle border-5" action="FrmDangNhap.jsp" method="get">
 		<%
 			String tb=null;
@@ -39,6 +40,7 @@
 			<button class="btn btn-primary active" type="submit" name="dangnhap" style=" border-radius:5px;margin-left: 20px; margin-top: 25px;width: 270px;height: 40px;">Đăng nhập</button>
 		</form>
 
+	</div>
 	</div>
 </body>
 </html>
