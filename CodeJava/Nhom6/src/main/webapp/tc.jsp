@@ -1,3 +1,4 @@
+<%@page import="javax.swing.UIManager.LookAndFeelInfo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -54,6 +55,22 @@
 			</ul>
 		</div>
 	</nav>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+				Hien thi loai
+			</div>
+			<div class="col-sm-8">
+				Hien thi sach
+			</div>
+			<div class="col-sm-2">
+				Tim kiem
+			</div>
+		</div>
+	</div>
+	
+	
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog modal-style">
 			<div class="modal-content">
