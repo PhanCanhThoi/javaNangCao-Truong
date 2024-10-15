@@ -1,10 +1,11 @@
+<%@page import="temp.CgioHang"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="SachModal.Sach"%>
 <%@page import="SachModal.SachBo"%>
 <%@page import="LoaiModal.Loai"%>
 <%@page import="LoaiModal.LoaiBo"%>
 <%@page import="javax.swing.UIManager.LookAndFeelInfo"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,127 +15,309 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="tcStyle.css">
+<style type="text/css">
+.ip-seach::placeholder {
+	font-size: 10px;
+}
+</style>
 </head>
 <body>
 
-	<%
+	<!--  HEADER -->
+	<%@ include file= "Layout_navbar.jsp" %>
+`
 
+	<!-- CONTAINER -->
+
+
+	<div class="container">
+	
+	<!-- Trả sách về 1 session -->
+	<%
+	String datmua = request.getParameter("datmua");
+	session.setAttribute("datmua",null );
+	if(datmua!=null){
+		SachBo sbo = new SachBo();
+		ArrayList<Sach> ds = sbo.getSach();
+		ArrayList<Sach> temp = new ArrayList<Sach>();
+		int n = ds.size();
+		for(int i = 0 ; i < n ; i++){
+			if(datmua.equals(ds.get(i).getMaSach())) {
+				CgioHang gh = new CgioHang();
+				gh.themHang(ds.get(i).getTenSach(), 1, ds.get(i).getGia());
+				session.setAttribute("datmua", gh);
+				response.sendRedirect("DatHang.jsp");
+			}
+		}
+	}
 	%>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">WebSiteName</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="MayTinh.jsp">May Tinh</a></li>
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Page 1-1</a></li>
-						<li><a href="#">Page 1-2</a></li>
-						<li><a href="#">Page 1-3</a></li>
-					</ul></li>
-				<li><a href="#">Page 2</a></li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
+	
+	
+	
+	
+	<!--TRẢ VỀ DANH SÁCH CÁC SÁCH KHI TÌM KIẾM -->
+	<%String searchsach=""; 
+	if(request.getParameter("search-sach")!=null){
+		searchsach = request.getParameter("search-sach");
+	}
+	SachBo sach =new SachBo();
+	ArrayList<Sach> listSearch;
+	listSearch = sach.Tim(searchsach);
+	if(listSearch!=null && searchsach!=""){ %>
+		<div class="row">
+			<div class="col-sm-2">
 				<%
-				if (session.getAttribute("dn") != null) {
+				LoaiBo lBo = new LoaiBo();
+				for (Loai l : lBo.getLoai()) {
 				%>
-				<li><a href=""><span class="glyphicon glyphicon-user"></span>
-						xin chao <%=session.getAttribute("dn")%></a></li>
-				<%
-				} else {
-				%>
-				<li type="button" data-toggle="modal" data-target="#myModal"><a><span
-						class="glyphicon glyphicon-user"></span> Login</a></li>
+				<a href="tc.jsp?ml=<%=l.getMaLoai()%>"><%=l.getTenLoai()%>
+					<hr> </a>
 				<%
 				}
 				%>
-				<li><a href="logout.jsp"><span
-						class="glyphicon glyphicon-log-in"></span> logout</a></li>
-			</ul>
+			</div>
+			<div class="col-sm-8">
+				<%
+				int n = listSearch.size();
+				for (int i = 0; i < n; i++) {
+				%>
+				<form action="tc.jsp" method="get">
+					<div class="row">
+					<div class="col-sm-4">
+						<img alt="" src="<%=listSearch.get(i).getAnh()%>">
+						<hr>
+						<%=listSearch.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=listSearch.get(i).getGia()%></button>
+					</div>
+					</div>
+				</form>
+					<%
+					i++;
+					if (i < n) {
+					%>
+					<form action="tc.jsp">
+					<div class="col-sm-4">
+						<img alt="" src="<%=listSearch.get(i).getAnh()%>">
+						<hr>
+						<%=listSearch.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=listSearch.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+					<%
+					}
+					%>
+					<%
+					i++;
+					if (i < n) {
+					%>
+					<form action="tc.jsp">
+					<div class="col-sm-4">
+						<img alt="" src="<%=listSearch.get(i).getAnh()%>">
+						<hr>
+						<%=listSearch.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=listSearch.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+					<%
+					}
+					%>
+
+				<%
+				}
+				%>
+				</div>
+				
+				<!-- TÌM KIẾM SÁCH -->
+			<form action="tc.jsp">
+				<div class="input-group col-sm-2 ">
+				<input type="text" name="search-sach" class="form-control ip-seach"
+					placeholder="nhập tên sách, tác giả...">
+				<div class="input-group-btn">
+					<button type="submit" class=" btn btn-info">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+			</form>
 		</div>
-	</nav>
-	
-	
-	<div class="container">
+	<%}else{ %>
 		<div class="row">
 			<div class="col-sm-2">
-				<% LoaiBo lBo = new LoaiBo();
-				for(Loai l : lBo.getLoai()){%> 
-				<a href="tc.jsp?ml=<%=l.getMaLoai()%>"><%=l.getTenLoai() %> <hr> </a> <%} %> 
+				<%
+				LoaiBo lBo = new LoaiBo();
+				for (Loai l : lBo.getLoai()) {
+				%>
+				<a href="tc.jsp?ml=<%=l.getMaLoai()%>"><%=l.getTenLoai()%>
+					<hr> </a>
+				<%
+				}
+				%>
 			</div>
-			<%if(request.getParameter("ml")!=null){
-				SachBo sbo = new SachBo();
-    			ArrayList<Sach> ds =sbo.getSach(); 
-				int n = ds.size();
-	    			for(int i = 0 ; i < n ; i ++){  %>
-						<div class="row">
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div>
-    						<%i++; 
-    						if(i<n){%>
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div><%} %>
-    						<%i++;
-    						if(i<n){%>
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div><%} %>
-    					</div>
-			<%} %>
-	    			<%else{%>
+
+			<!-- CHỌN MÃ LOẠI HIỂN THỊ SÁCH -->
+			<%
+			String ml = request.getParameter("ml");
+			if (ml != null) {
+			%>
 			<div class="col-sm-8">
-    			<% 
-    			SachBo sbo = new SachBo();
-    			ArrayList<Sach> ds =sbo.getSach(); 
-	    		int n = ds.size();
-	    			for(int i = 0 ; i < n ; i ++){
-    			%>
-    					<div class="row">
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div>
-    						<%i++; 
-    						if(i<n){%>
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div><%} %>
-    						<%i++;
-    						if(i<n){%>
-    						<div class="col-sm-4">
-    							<img alt="" src="<%=ds.get(i).getAnh()%>"> <hr>
-    							<%=ds.get(i).getTenSach() %> <hr>
-    							<img alt="" src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia() %> <hr>
-    						</div><%} %>
-    					</div>
-    					
-    				<%} %>
-    		</div><%} %>
-			<div class="col-sm-2">
-				Tim kiem
+				<%
+				SachBo sbo = new SachBo();
+				ArrayList<Sach> ds = sbo.getSach();
+				ArrayList<Sach> temp = new ArrayList<Sach>();
+				int n = ds.size();
+				for (int i = 0; i < n; i++) {
+					if (ml.equals(ds.get(i).getMaLoai())) {
+						temp.add(ds.get(i));
+					}
+				}
+				int x = temp.size();
+				for (int i = 0; i < x; i++) {
+				%>
+				<div class="row">
+				<form action="tc.jsp" method="get">
+					<div class="col-sm-4">
+						<img alt="" src="<%=temp.get(i).getAnh()%>">
+						<hr>
+						<%=temp.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=temp.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=temp.get(i).getGia()%></button>
+					</div>
+				</form>
+					<%
+					i++;
+					if (i < x) {
+					%>
+					<form action="tc.jsp">
+					<div class="col-sm-4">
+						<img alt="" src="<%=temp.get(i).getAnh()%>">
+						<hr>
+						<%=temp.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=temp.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=temp.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+					<%
+					}
+					%>
+					<%
+					i++;
+					if (i < x) {
+					%>
+					<form action="tc.jsp">
+					<div class="col-sm-4">
+						<img alt="" src="<%=temp.get(i).getAnh()%>">
+						<hr>
+						<%=temp.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=temp.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=temp.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+				</div>
+					<%
+					}
+					%>
+				</div>
+				<%
+				}
+				%>
+			<!-- HIỂN THỊ SÁCH MÀ KHÔNG CẦN CHỌN MÃ LOẠI -->
+			<%
+			} else {
+			%>
+			<div class="col-sm-8">
+				<%
+				request.setCharacterEncoding("utf-8");
+				response.setCharacterEncoding("utf-8");
+				SachBo sbo = new SachBo();
+				ArrayList<Sach> ds = sbo.getSach();
+				int n = ds.size();
+				for (int i = 0; i < n; i++) {
+				%>
+				<div class="row">
+					<form action="tc.jsp" method="get">
+					<div class="col-sm-4">
+						<img alt="" src="<%=ds.get(i).getAnh()%>">
+						<hr>
+						<%=ds.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=ds.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+					<%
+					i++;
+					if (i < n) {
+					%>
+					<form action="tc.jsp" method="get">
+					<div class="col-sm-4">
+						<img alt="" src="<%=ds.get(i).getAnh()%>">
+						<hr>
+						<%=ds.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=ds.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+					<%
+					}
+					%>
+					<%
+					i++;
+					if (i < n) {
+					%>
+					<form action="tc.jsp" method="get">
+					<div class="col-sm-4">
+						<img alt="" src="<%=ds.get(i).getAnh()%>">
+						<hr>
+						<%=ds.get(i).getTenSach()%>
+						<hr>
+						<button type="submit" name="datmua" value="<%=ds.get(i).getMaSach()%>"><img src="https://minhkhai.com.vn/store/images/buynow.jpg"><%=ds.get(i).getGia()%></button>
+						<hr>
+					</div>
+					</form>
+
+
+					<%
+					}
+					%>
+							</div>
+				<%
+				}
+				%>
 			</div>
+			<%
+			}
+			%>			
+			<!-- TÌM KIẾM SÁCH -->
+			<form action="tc.jsp">
+				<div class="input-group col-sm-2 ">
+				<input type="text" name="search-sach" value="" class="form-control ip-seach"
+					placeholder="nhập tên sách, tác giả...">
+				<div class="input-group-btn">
+					<button type="submit" class=" btn btn-info">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+				</div>
+			</form>
+			
+			
 		</div>
-	</div>
-	
-	
+		<%} %>
+		</div>
+
+
+	<!--MODAL FORM ĐĂNG NHẬP  -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog modal-style">
 			<div class="modal-content">
@@ -152,10 +335,12 @@
 							String mk = "";
 							tendn = request.getParameter("txtTenDn");
 							mk = request.getParameter("txtMk");
-							if (tendn == null)
+							if (tendn == null) {
 								tendn = "";
-							if (mk == null)
+							}
+							if (mk == null) {
 								mk = "";
+							}
 							if (tendn.equals("abc") && mk.equals("123")) {
 								session.setAttribute("dn", tendn);
 								response.sendRedirect("tc.jsp");
@@ -191,5 +376,9 @@
 			</div>
 		</div>
 	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

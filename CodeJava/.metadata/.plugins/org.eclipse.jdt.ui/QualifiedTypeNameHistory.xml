@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="LoaiModal.LoaiDao"/>
+    <fullyQualifiedTypeName name="LoaiModal.Loai"/>
+    <fullyQualifiedTypeName name="SachModal.SachDao"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="SachModal.Sach"/>
+</qualifiedTypeNameHistroy>

@@ -20,14 +20,16 @@ public class SachBo {
 		return temp;
 	}
 	
-	public ArrayList<Sach> Tim(String key){
-		ArrayList<Sach> temp = new ArrayList<Sach>();
-		for(Sach sach: ds) {
-			if(sach.getTenSach().toLowerCase().trim().contains(key.toLowerCase().trim()) || sach.getTacGia().toLowerCase().trim().contains(key.toLowerCase().trim())) {
-				temp.add(sach);
+	public ArrayList<Sach> Tim(String keyword){
+		SachDao sachdao = new SachDao();
+		ArrayList<Sach> temp1 = new ArrayList<Sach>();
+		ArrayList<Sach> ds = sachdao.getSach();
+		for(Sach sach:ds) {
+			if(sach.getTenSach().toLowerCase().trim().contains(keyword.toLowerCase().trim())) {
+				temp1.add(sach);
 			}
 		}
 		
-		return temp;
-	}
+		return temp1;
 }
+	}
