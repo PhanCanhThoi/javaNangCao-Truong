@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="javax.swing.RepaintManager"%>
 <%@page import="temp.Hang"%>
 <%@page import="temp.CgioHang" %>
@@ -8,142 +9,103 @@
 <head>	
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-	<% String tenhangss="";
-	long slss=0;
-	long giass=0;
-	if(session.getAttribute("datmua")!=null){
-		CgioHang cgh=(CgioHang) session.getAttribute("datmua");
-		int n = cgh.ds.size();
-		  	for(Hang hang: cgh.ds){
-		  		tenhangss = hang.getTenHang();
-		  		slss = hang.getSoLuong();
-		  		giass = hang.getGia();
-		  	}
-	}
-	%>
-	<form action="DatHang.jsp" method="get">
-		<div style="margin-left: 40px ; margin-top: 20px"><span>Tên hàng :</span> <input type="text" name="txtTenHang" value="<%=tenhangss%>">		
-			<input style="margin-left: 40px" class="btn btn-info" type="Submit" name="sua" value="Sửa hàng" >
-		</div> <br>
-		<div style="margin-left: 40px"><span>Giá :</span> <input value="<%=giass%>" style="margin-left: 40px;" type="text" name="txtGia">
-		 <input style="margin-left: 40px" class="btn btn-info" type="Submit" name="un" value="Đặt Hàng" >
-		 <input style="margin-left: 40px" class="btn btn-info" type="Submit" name="deleteall" value="Xoá all" >
-		 </div><br>
-		<div style="margin-left: 40px"><span>Số lượng :</span> <input type="text" name="txtSoLuong" value="<%=slss%>">
-			<input style="margin-left: 40px" class="btn btn-info" type="Submit" name="xoa" value="Xoá Hàng" >
-		</div> <br>
-	</form>
-	<%if(request.getParameter("trangchu")!=null){
-		response.sendRedirect("tc.jsp");
-		}
-	if(request.getParameter("sua")!=null){
-			String tenh;
-			String sol;
-			String dgia;
-			if(request.getParameter("txtTenHang")!=null &&request.getParameter("txtSoLuong")!=null&&request.getParameter("txtGia")!=null){
-			 tenh = request.getParameter("txtTenHang");
-			 sol =request.getParameter("txtSoLuong");
-			 dgia =request.getParameter("txtGia");
-			session.setAttribute("th", tenh);
-			session.setAttribute("sl", sol);
-			session.setAttribute("gia", dgia);
-			response.sendRedirect("Sua.jsp");
-			}
-		}
-	if(request.getParameter("xoa")!=null){
-		String tenhang;
-		if(request.getParameter("txtTenHang")!=null){
-			tenhang = request.getParameter("txtTenHang");
-			CgioHang gh = new CgioHang();
-			gh = (CgioHang)session.getAttribute("gh");
-			gh.xoa(tenhang);
-			session.setAttribute("gh", gh);
-		}
-	}
-	if(request.getParameter("deleteall")!=null){
-		CgioHang g = new CgioHang();
-		session.setAttribute("gh", g);
-	}
-	if(request.getParameter("deleteitem")!=null){
-			String [] items = request.getParameterValues("action");
-			CgioHang gh = new CgioHang();
-			gh = (CgioHang)session.getAttribute("gh");
-			int n = gh.ds.size();
-			if(items!=null){
-				for(String tenhang: items ){ 				
-						gh.xoa(tenhang); 
-						} 
-					}
-			session.setAttribute("gh", gh);
-		}
-	%>
+	<!--ADD CÁC MẶT HÀNG VÀO TRONG TABLE -->
 	<%
-	if(request.getParameter("un")!=null){
-		String th = request.getParameter("txtTenHang");
-		String sl =request.getParameter("txtSoLuong");
-		String gia =request.getParameter("txtGia");
-		if(th!=null && sl!= null && gia!=null){
-			CgioHang g = new CgioHang();
-			if(session.getAttribute("gh")==null){
-				session.setAttribute("gh", g);
-			}
-			g = (CgioHang) session.getAttribute("gh");
-			g.themHang(th,Integer.parseInt(sl),Integer.parseInt(gia));
-			session.setAttribute("gh", g); //session là cgioHang có 1 đối tượng
+	CgioHang gh = new CgioHang();
+	CgioHang cgio = new CgioHang();
+	if(session.getAttribute("datmua")!=null){ //đặt mua một cgiohang
+		gh = (CgioHang) session.getAttribute("datmua");//gio hang dat mua
+		//đặt mua lần đầu
+		if(session.getAttribute("gh")== null){
+			session.setAttribute("gh", gh);
+			cgio = (CgioHang)session.getAttribute("gh");
 		}
-	}
-	if(session.getAttribute("gh")!=null){
-		CgioHang g = new CgioHang();
-		g = (CgioHang)session.getAttribute("gh");
-		int n = g.ds.size();%>
-		<form method="get" action="DatHang.jsp">
-		<table class="table table-bordered table-striped mb-0 mt-4 ">
-			<thead>
-				<tr >
-					<th  style="text-align: center" class="bg-primary text-white">Chọn</th>
-					<th  style="text-align: center" class="bg-primary text-white">Tên Hàng</th>
-					<th  style="text-align: center" class="bg-primary text-white">Giá</th>
-					<th  style="text-align: center" class="bg-primary text-white">Số Lượng</th>
-					<th  style="text-align: center" class="bg-primary text-white">Thành Tiền</th>
-				</tr>
-			</thead>
-		<%	for(int i = 0 ; i < n ; i++){%>
-			<tr>
-				<td style="text-align: center">
-				<input type="checkbox" name="action" value="<%=g.ds.get(i).getTenHang() %>"></td>
-				<td style="text-align: center">
-					<%=g.ds.get(i).getTenHang() %>
-				</td>
-					
-				<td style="text-align: center ">
-					<%=g.ds.get(i).getGia() %>
-				</td>
-				
-				<td style="text-align: center" >
-					<%=g.ds.get(i).getSoLuong() %>
-				</td>
-				
-				<td style="text-align: center" >
-				<%=g.ds.get(i).getThanhTien() %>
-				</td>
-			</tr>
-		<%}%>
-			<table style="margin-top: 40px; width: 200px;margin-left: 1200px ;border-radius: 10px" class="table table-bordered">
-			<tr>
-			<td class="bg-info-subtle" style="text-align: right; padding-right: 60px ;"><div  >Tổng tiền : <%=g.tongTien() %></div>
-			</tr>
-			</table>
-			<input style="margin-left: 40px" class="btn btn-info" type="Submit" name="deleteitem" value="Xoa items" >
-			<input style="margin-left: 40px" class="btn btn-info" type="Submit" name="trangchu" value="Trang chủ" >
-	<%}
-	%>
-	</table>
-			
-		</form>
-		
+		//đã đặt mua những lần sau
+		else{
+			cgio =(CgioHang) session.getAttribute("gh");
+			cgio.themHang(gh.ds.getFirst().getSach(),gh.ds.getFirst().getSoLuong());//add hàng của lần mua tiếp theo vào giỏ
+			session.setAttribute("gh",cgio); 
+		}
 	
+	}
+	else{
+		cgio = (CgioHang)session.getAttribute("gh");
+	}
+	%>
+	<!-- Navigation Bar -->
+	<%@ include file="Layouts/navBar.jsp" %>
+	<%if(cgio ==null){ %>
+	<div class="container">
+		<div class="row">
+		<%@ include file="Layouts/SelectLoaiSach.jsp" %>
+			<div class="col-sm-8 text-center">
+			<h3>giỏ hàng trống</h3>
+			<hr>
+			</div>
+		<%@include file="Layouts/Footer.jsp" %>
+		</div>
+	</div>
+	<%}else{ 
+	int n = cgio.ds.size();%>
+
+	<div class="container">
+		<div class="row">
+			<%@ include file="Layouts/SelectLoaiSach.jsp" %>
+			<div class="col-sm-8">
+				<h3 class="text-center">Giỏ hàng</h3>
+				<hr>		
+				<form action="XoaSua.jsp" method="get">
+				<table class="table table-bordered">
+					<thead>
+						<th>chọn</th>
+						<th>Tên hàng</th>
+						<th>Giá</th>
+						<th>Số lượng</th>
+						<th>Thành tiền</th>
+						<th>Thao tác</th>
+					</thead>
+					 <%for(int i = 0 ; i < n ; i++){ %>
+					 	<tr>
+					 		<input type="hidden" name="masach" value="<%=cgio.ds.get(i).getSach().getMaSach()%>">
+							 <td>
+							 	<input type="checkbox" name="checkbox" value="<%=cgio.ds.get(i).getSach().getMaSach()%>">
+							 </td>
+							 <td><%=cgio.ds.get(i).getSach().getTenSach()%></td>
+							 <td><%=cgio.ds.get(i).getSach().getGia()%></td>
+							 <td>
+							 <input class="form-control-sm" type="number" value="<%=cgio.ds.get(i).getSoLuong()%>" name="<%=cgio.ds.get(i).getSach().getMaSach()%>">
+							 </td>
+							 <td><%=cgio.ds.get(i).getThanhTien() %></td>
+							 <td>
+							 <div class="d-flex justify-content-center">
+							 	<button type="submit" class="btn btn-sm btn-primary me-2" name="buttonEdit" value="<%=cgio.ds.get(i).getSach().getMaSach()%>">
+							 	<i class="fa fa-edit "></i>
+							 	</button>
+							 	<button type="submit" class="btn btn-sm btn-danger" name="buttonXoa">
+							 	<i class="fa fa-trash"></i>
+							 	</button>
+							 </div>
+							 </td>
+						 </tr>
+					 <%} %>
+				</table>
+				<div class="text-end mb-3">
+                        <strong>Tổng tiền: <%=cgio.tongTien()%></strong>
+                    </div>
+                    <div class="text-end mb-3">
+                        <button type="submit" name="xoaItem"  class="btn btn-danger me-2">Xóa đã chọn</button>
+                        <button type="submit" name="deleteAll" class="btn btn-danger">Xóa tất cả</button>
+                    </div>
+				</form>
+			</div>		
+			<%@include file="Layouts/Footer.jsp" %>
+		</div>
+	</div>
+	<%} %>
+	<%session.setAttribute("datmua", null); %>
 </body>
 </html>

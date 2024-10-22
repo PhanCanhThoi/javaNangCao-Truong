@@ -26,9 +26,6 @@ public class Sach {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
-	//geter seter
 	public String getMaSach() {
 		return MaSach;
 	}
@@ -84,12 +81,7 @@ public class Sach {
 	public void setMaLoai(String maLoai) {
 		MaLoai = maLoai;
 	}
-	
-	
 
-	
-	
-
-	
 	
 }
+	

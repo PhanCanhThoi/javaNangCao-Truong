@@ -1,3 +1,4 @@
+
 package SachModal;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public class SachDao {
 		ds.add(new Sach("b3","Chat Ran","Le Nam", (long)10, (long)100, "image_sach/b3.jpg", "hoa"));
 		ds.add(new Sach("b4","Giai Tich","Le Nam", (long)10, (long)100, "image_sach/b4.jpg", "toan"));
 		ds.add(new Sach("b5","Dai So","Le Nam", (long)10, (long)100, "image_sach/b5.jpg", "toan"));
-		ds.add(new Sach("b6","Công nghệ thực phẩm","Le Nam", (long)10, (long)100, "image_sach/b6.jpg", "sinh"));
+		ds.add(new Sach("b6","Cong nghe thuc pham","Le Nam", (long)10, (long)100, "image_sach/b6.jpg", "sinh"));
 		ds.add(new Sach("b7","Hoa 6","Le Nam", (long)10, (long)100, "image_sach/b7.jpg", "hoa"));
 		return ds;
 	}    

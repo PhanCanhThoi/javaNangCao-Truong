@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="LoaiModal.LoaiDao"/>
-    <fullyQualifiedTypeName name="LoaiModal.Loai"/>
     <fullyQualifiedTypeName name="SachModal.SachDao"/>
+    <fullyQualifiedTypeName name="org.apache.catalina.connector.Request"/>
+    <fullyQualifiedTypeName name="LoaiModal.LoaiBo"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="LoaiModal.Loai"/>
+    <fullyQualifiedTypeName name="SachModal.SachBo"/>
     <fullyQualifiedTypeName name="SachModal.Sach"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
+    <fullyQualifiedTypeName name="javax.websocket.Session"/>
+    <fullyQualifiedTypeName name="javax.servlet.RequestDispatcher"/>
 </qualifiedTypeNameHistroy>
