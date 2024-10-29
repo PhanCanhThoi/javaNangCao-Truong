@@ -9,13 +9,14 @@
 				<hr>
 				<div class="list-group">
 					<%
-					ArrayList<Loai> dsl = (ArrayList<Loai>)request.getAttribute("dsLoai");
-					for (Loai l : dsl) {
+					ArrayList<Loai> dsl;
+					dsl = (ArrayList<Loai>)session.getAttribute("dsl");
+						for (Loai l : dsl) {
 					%>
 					<a class="list-group-item" href="trangChuController?ml=<%=l.getMaLoai()%>"><%=l.getTenLoai()%>
 					</a>
 					<%
-					}
+						}
 					%>
 				</div>
 </div>

@@ -23,158 +23,58 @@
 	<!-- CONTAINER -->
 	<div class="container">	
 	<!-- Trả sách về 1 session -->
-	<%String datmua = request.getParameter("datmua");// đặt mua là 1 cái mã sách
-	session.setAttribute("datmua",null );	
-	if(datmua!=null){
-		SachBo sbo = new SachBo();
-		ArrayList<Sach> ds = sbo.getSach();//ds là tất cả các sách
-		ArrayList<Sach> temp = new ArrayList<Sach>();
-		int n = ds.size();
-		for(int i = 0 ; i < n ; i++){
-			if(datmua.equals(ds.get(i).getMaSach())) {
-				CgioHang gh = new CgioHang();
-				Sach sach = new Sach(ds.get(i).getMaSach(),ds.get(i).getTenSach(),ds.get(i).getTacGia(),ds.get(i).getSoLuong(),ds.get(i).getGia(),ds.get(i).getAnh(),ds.get(i).getMaLoai());
-				gh.themHang(sach,1);
-				session.setAttribute("datmua", gh);
-				response.sendRedirect("DatHang.jsp");
-			}
-		}
-	}
-	%>
 	
 	<!--TRẢ VỀ DANH SÁCH CÁC SÁCH KHI TÌM KIẾM -->
-	<%String searchsach=""; 
-	if(request.getParameter("search-sach")!=null){
-		searchsach = request.getParameter("search-sach");
-	}
-	SachBo sach =new SachBo();
-	ArrayList<Sach> listSearch;
-	listSearch = sach.Tim(searchsach);
-	if(listSearch!=null && searchsach!=""){ %>
-		<div class="row">
-			<!--HIỂN THỊ SANH SÁCH LOẠI SÁCH KHI TÌM KIẾM  -->
-			<%@ include file="Layouts/SelectLoaiSach.jsp" %>
-			<!-- HIỂN THỊ CÁC SÁCH ĐÃ TÌM KIẾM -->
-			<div class="col-sm-8">
-				<%
-				int n = listSearch.size();
-				for (int i = 0; i < n; i++) {
-				%>
-				<h3 class="text-center">Danh sách Sách tìm được</h3>
-				<hr>
-				<div class="row">
-					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
-					</div>
-					<%
-					i++;
-					if (i < n) {
-					%>
-					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
-					</div>
-					<%
-					}
-					%>
-					<%
-					i++;
-					if (i < n) {
-					%>
-					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
-					</div>
-					<%
-					}%>
-					
-			</div>
-				
-		<%}%>	
-		</div>
-				
-				<!-- TÌM KIẾM SÁCH -->
-			<%@ include file="Layouts/Footer.jsp" %>
-
-	</div>
-	<%} // HIỂN THỊ TẤT CẢ CÁC CART DANH SÁCH
-	else{ %>
+	<%
+	ArrayList<Sach> listSearch = new ArrayList<Sach>();
+	listSearch = (ArrayList<Sach>)request.getAttribute("listSearch");
+// HIỂN THỊ TẤT CẢ CÁC CART DANH SÁCH %>
 		<div class="row">
 			<!--HIỂN THỊ LOẠI SÁCH  -->
 			<%@ include file="Layouts/SelectLoaiSach.jsp" %>
 			<!-- CHỌN MÃ LOẠI HIỂN THỊ SÁCH -->
-			<%
-			String ml = (String)request.getAttribute("ml");
-			if (ml != null) {
-			%>
-			<div class="col-sm-8">
-				<h3 class="text-center">Các Sách có mã loại: <%=ml %></h3>
-				<hr>
-				<%
-				SachBo sbo = new SachBo();
-				ArrayList<Sach> ds = sbo.getSach();
-				ArrayList<Sach> temp = new ArrayList<Sach>();
-				int n = ds.size();
-				for (int i = 0; i < n; i++) {
-					if (ml.equals(ds.get(i).getMaLoai())) {
-						temp.add(ds.get(i));
-					}
-				}%>
-				<%int x = temp.size();
-				for (int i = 0; i < x; i++) {
-				%>
-
-				<div class="row">
-					<div class="col-sm-4">
-						<%@ include file="Layouts/CardChonLoai.jsp" %>
-					</div>
-					<%
-					i++;
-					if (i < x) {
-					%>
-
-					<div class="col-sm-4">
-						<%@ include file="Layouts/CardChonLoai.jsp" %>
-					</div>
-					<%
-					}
-					%>
-					<%
-					i++;
-					if (i < x) {
-					%>
-					<div class="col-sm-4">
-						<%@ include file="Layouts/CardChonLoai.jsp" %>
-					</div>
-					<%
-					}
-					%>
-			</div>
-				<%
-				}
-				%>
-				</div>
-			<!-- HIỂN THỊ SÁCH MÀ KHÔNG CẦN CHỌN MÃ LOẠI -->
-			<%
-			} else {
-			%>
 			<div class="col-sm-8">
 				<h3 class="text-center">Danh sách các Sách</h3>
 				<hr>
 				<%
-				ArrayList<Sach> dsSach = (ArrayList<Sach>)request.getAttribute("dsSach");
-				int n = dsSach.size();
+				int n = listSearch.size();
 				for (int i = 0; i < n; i++) {
 				%>
 				
 				<div class="row">
 					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
+						<div class="card mb-4" style="height: 450px">
+						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
+						<div class="card-body">
+						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
+						<p class="card-text text-center">Giá bán :<%=listSearch.get(i).getGia()%> đồng</p>
+						</div>
+						<form action="datHangController" method="get">
+						<div class="d-flex justify-content-center pb-4">
+							<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>">
+						<img src="https://minhkhai.com.vn/store/images/buynow.jpg"></button>
+						</div>
+						</form>
+			</div>
 					</div>
 					<%
 					i++;
 					if (i < n) {
 					%>
 					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
+						<div class="card mb-4" style="height: 450px">
+						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
+						<div class="card-body">
+						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
+						<p class="card-text text-center">Giá bán :<%=listSearch.get(i).getGia()%> đồng</p>
+						</div>
+						<form action="datHangController" method="get">
+						<div class="d-flex justify-content-center pb-4">
+							<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>">
+						<img src="https://minhkhai.com.vn/store/images/buynow.jpg"></button>
+						</div>
+						</form>
+			</div>
 					</div>
 					<%
 					}
@@ -184,7 +84,19 @@
 					if (i < n) {
 					%>
 					<div class="col-sm-4">
-						<%@ include file="Layouts/Cart.jsp" %>
+						<div class="card mb-4" style="height: 450px">
+						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
+						<div class="card-body">
+						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
+						<p class="card-text text-center">Giá bán :<%=listSearch.get(i).getGia()%> đồng</p>
+						</div>
+						<form action="datHangController" method="get">
+						<div class="d-flex justify-content-center pb-4">
+							<button type="submit" name="datmua" value="<%=listSearch.get(i).getMaSach()%>">
+						<img src="https://minhkhai.com.vn/store/images/buynow.jpg"></button>
+						</div>
+						</form>
+			</div>
 					</div>
 					<%
 					}
@@ -193,15 +105,10 @@
 				<%
 				}
 				%>
-
 			</div>
-			<%
-			}
-			%>
 			<!-- TÌM KIẾM SÁCH -->
-			<%@ include file="Layouts/Footer.jsp" %>
+			<%@ include file="Layouts/Search.jsp" %>
 		</div>
-		<%} %>
 </div>
 
 	<!--MODAL FORM ĐĂNG NHẬP  -->

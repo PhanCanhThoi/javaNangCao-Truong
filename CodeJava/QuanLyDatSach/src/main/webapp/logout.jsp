@@ -8,7 +8,7 @@
 </head>
 <body>
 	<%
-	  response.sendRedirect("trangChuController");
-		%>
+	response.sendRedirect("trangChuController");
+	%>
 </body>
 </html>

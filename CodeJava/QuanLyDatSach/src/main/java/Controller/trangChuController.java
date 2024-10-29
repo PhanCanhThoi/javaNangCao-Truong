@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import LoaiModal.Loai;
 import LoaiModal.LoaiBo;
@@ -35,31 +36,38 @@ public class trangChuController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
+		//tra ve cac tat ca loai
 		HttpSession session = request.getSession();
-		//lay ve
+		ArrayList<Loai> dsl = new ArrayList<Loai>();
 		LoaiBo lbo = new LoaiBo();
-		ArrayList<Loai> ds = lbo.getLoai();
-		request.setAttribute("dsLoai", ds);
-		//tìm mã loại
-		String ml = request.getParameter("ml");
-		request.setAttribute("ml", ml);
-		//trả về danh sách tất cả các sách
-		SachBo sbo = new SachBo();
-		ArrayList<Sach> dsSach = sbo.getSach();
-		request.setAttribute("dsSach", dsSach);
+		dsl=lbo.getLoai();
+		session.setAttribute("dsl", dsl);		
+
+		
+		// TRA VE DANH SACH HIEN THI
+		String ml = (String)request.getParameter("ml");
+		String searchsach = request.getParameter("search-sach");
+		SachBo sach =new SachBo();
+		ArrayList<Sach> listSearch = new ArrayList<Sach>();
+		if(searchsach!=null){
+			listSearch = sach.Tim(searchsach);
+		}
+		if(ml!= null){
+			listSearch = sach.timMa(ml);
+		}
+		if(ml==null && searchsach == null ){
+			listSearch = sach.getSach();
+		}
+		request.setAttribute("listSearch", listSearch);		
 		
 		//dang nhap
 		String tendn = request.getParameter("txtTenDn");
 		String mk = request.getParameter("txtMk");
-		request.setAttribute("tendn", tendn);
-		request.setAttribute("mk", mk);
-		session.setAttribute("tendn",tendn);
-		session.setAttribute("mk",mk);	
-		//chuyen dsloai sang tc.jsp de hien thi
+		session.setAttribute("tendn", tendn);
+		session.setAttribute("mk", mk);
 		RequestDispatcher rd = request.getRequestDispatcher("tc.jsp");
 		rd.forward(request, response);
+		
 	}
 
 	/**

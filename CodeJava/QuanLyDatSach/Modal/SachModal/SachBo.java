@@ -13,6 +13,7 @@ public class SachBo {
 	
 	public ArrayList<Sach> timMa(String MaLoai){
 		ArrayList<Sach> temp = new ArrayList<Sach>();
+		ds=sachDao.getSach();
 		for(Sach sach:ds) {
 			if(sach.getMaLoai().toLowerCase().trim().equals(MaLoai.toLowerCase().trim())) {
 				temp.add(sach);

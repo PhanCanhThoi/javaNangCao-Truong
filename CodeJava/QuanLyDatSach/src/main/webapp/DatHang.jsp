@@ -15,26 +15,7 @@
 <body>
 	<!--ADD CÁC MẶT HÀNG VÀO TRONG TABLE -->
 	<%
-	CgioHang gh = new CgioHang();
-	CgioHang cgio = new CgioHang();
-	if(session.getAttribute("datmua")!=null){ //đặt mua một cgiohang
-		gh = (CgioHang) session.getAttribute("datmua");//gio hang dat mua
-		//đặt mua lần đầu
-		if(session.getAttribute("gh")== null){
-			session.setAttribute("gh", gh);
-			cgio = (CgioHang)session.getAttribute("gh");
-		}
-		//đã đặt mua những lần sau
-		else{
-			cgio =(CgioHang) session.getAttribute("gh");
-			cgio.themHang(gh.ds.getFirst().getSach(),gh.ds.getFirst().getSoLuong());//add hàng của lần mua tiếp theo vào giỏ
-			session.setAttribute("gh",cgio); 
-		}
-	
-	}
-	else{
-		cgio = (CgioHang)session.getAttribute("gh");
-	}
+	CgioHang cgio = (CgioHang)session.getAttribute("gh");
 	%>
 	<!-- Navigation Bar -->
 	<%@ include file="Layouts/navBar.jsp" %>
@@ -46,10 +27,10 @@
 			<h3>giỏ hàng trống</h3>
 			<hr>
 			</div>
-		<%@include file="Layouts/Footer.jsp" %>
+		<%@include file="Layouts/Search.jsp" %>
 		</div>
 	</div>
-	<%}else{ 
+	<%}else{
 	int n = cgio.ds.size();%>
 
 	<div class="container">
@@ -57,8 +38,8 @@
 			<%@ include file="Layouts/SelectLoaiSach.jsp" %>
 			<div class="col-sm-8">
 				<h3 class="text-center">Giỏ hàng</h3>
-				<hr>		
-				<form action="XoaSua.jsp" method="get">
+				<hr>
+				<form action="xoaSuaController" method="get">
 				<table class="table table-bordered">
 					<thead>
 						<th>chọn</th>
@@ -102,7 +83,7 @@
                     </div>
 				</form>
 			</div>		
-			<%@include file="Layouts/Footer.jsp" %>
+			<%@include file="Layouts/Search.jsp" %>
 		</div>
 	</div>
 	<%} %>

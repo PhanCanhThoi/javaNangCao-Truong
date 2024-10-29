@@ -15,11 +15,18 @@ pageEncoding="UTF-8"%>
 				</ul>
 				<ul class="navbar-nav ms-auto">
 					<%
-					if (session.getAttribute("dn") != null) {
+					String tendn = (String)session.getAttribute("tendn");
+					if(tendn==null)
+						tendn="";
+					String mk = (String)session.getAttribute("mk");
+					if(mk==null)
+						mk="";
+					if (tendn.equals("abc")&& mk.equals("123")) {
 					%>
 					<li class="nav-item"><a class="nav-link" href=""><span class="glyphicon glyphicon-user"></span>
-							xin chao <%=session.getAttribute("dn")%></a></li>
+							xin chao <%=tendn%></a></li>
 					<%
+
 					} else {
 					%>
 					<li class="nav-item" type="button" data-bs-toggle="modal" data-bs-target="#myModal"><a class="nav-link"><span
@@ -44,26 +51,6 @@ pageEncoding="UTF-8"%>
 				<div class="modal-body">
 					<div class="mx-auto">
 						<form class="container border py-4 border-info" action="trangChuController" method="get">
-							<%
-							String tb = null;
-							String tendn = "";
-							String mk = "";
-							mk = (String)request.getAttribute("mk");
-							tendn = (String)request.getAttribute("tendn");
-							if (tendn == null) {
-								tendn = "";
-							}
-							if (mk == null) {
-								mk = "";
-							}
-							if (tendn.equals("abc") && mk.equals("123")) {
-								session.setAttribute("tendn", tendn);
-								session.setAttribute("mk", mk);
-								response.sendRedirect("trangChuController");
-							} else {
-								tb = "dang nhap sai";
-							}
-							%>
 							<img class="logo-img" alt=""
 								src="https://student.husc.edu.vn/Themes/Login/images/logo-small.png">
 							<h1 class="mb-2 pt-4" style="color: #25258e; padding-left: 20px;">SINH
