@@ -10,24 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import LoaiModal.Loai;
-import LoaiModal.LoaiBo;
-import SachModal.Sach;
-import SachModal.SachBo;
+import DangNhapModal.DangNhap;
+import DangNhapModal.DangNhapBo;
 
 /**
- * Servlet implementation class trangChuController
+ * Servlet implementation class DangNhapController
  */
-@WebServlet("/trangChuController")
-public class trangChuController extends HttpServlet {
+@WebServlet("/DangNhapController")
+public class DangNhapController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public trangChuController() {
+    public DangNhapController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,34 +33,19 @@ public class trangChuController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//tra ve cac tat ca loai
+				//dang nhap
 		HttpSession session = request.getSession();
-		ArrayList<Loai> dsl = new ArrayList<Loai>();
-		LoaiBo lbo = new LoaiBo();
-		dsl=lbo.getLoai();
-		session.setAttribute("dsl", dsl);		
-
-		
-		// TRA VE DANH SACH HIEN THI
-		String ml = (String)request.getParameter("ml");
-		String searchsach = request.getParameter("search-sach");
-		SachBo sach =new SachBo();
-		ArrayList<Sach> listSearch = new ArrayList<Sach>();
-		if(searchsach!=null){
-			listSearch = sach.Tim(searchsach);
+		String tendn = request.getParameter("txtTenDn");
+		String mk = request.getParameter("txtMk");
+		DangNhapBo dnBo = new DangNhapBo();
+		ArrayList<DangNhap> ds = dnBo.getDangNhap();
+		for(DangNhap dn : ds) {
+			if(dn.getTenDn().equals(tendn) && dn.getMatKhau().equals(mk))
 		}
-		if(ml!= null){
-			listSearch = sach.timMa(ml);
-		}
-		if(ml==null && searchsach == null ){
-			listSearch = sach.getSach();
-		}
-		request.setAttribute("listSearch", listSearch);		
-		
-
+		session.setAttribute("tendn", tendn);      
+		session.setAttribute("mk", mk);
 		RequestDispatcher rd = request.getRequestDispatcher("tc.jsp");
 		rd.forward(request, response);
-		
 	}
 
 	/**

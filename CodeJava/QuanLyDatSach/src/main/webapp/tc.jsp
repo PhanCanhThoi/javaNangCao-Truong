@@ -43,7 +43,7 @@
 				
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="card mb-4" style="height: 450px">
+						<div class="card mb-4" style="height: 500px">
 						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
 						<div class="card-body">
 						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
@@ -62,7 +62,7 @@
 					if (i < n) {
 					%>
 					<div class="col-sm-4">
-						<div class="card mb-4" style="height: 450px">
+						<div class="card mb-4" style="height: 500px">
 						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
 						<div class="card-body">
 						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
@@ -84,7 +84,7 @@
 					if (i < n) {
 					%>
 					<div class="col-sm-4">
-						<div class="card mb-4" style="height: 450px">
+						<div class="card mb-4" style="height: 500px">
 						<img class="card-img-top"src="<%=listSearch.get(i).getAnh()%>">
 						<div class="card-body">
 						<h5 class="card-title text-center"><%=listSearch.get(i).getTenSach()%></h5>
