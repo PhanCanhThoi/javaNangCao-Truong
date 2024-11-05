@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -16,24 +26,10 @@ pageEncoding="UTF-8"%>
 							class="glyphicon glyphicon-log-in"></span>Giỏ hàng <i class="fas fa-shopping-cart"></i></a></li>
 				</ul>
 				<ul class="navbar-nav ms-auto">
-				<li class="nav-item" type="button" data-bs-toggle="modal" data-bs-target="#signup"><a class="nav-link"><span
-							class="glyphicon glyphicon-user"></span>Đăng ki</a></li>
-					<%
-					boolean checkDn =(boolean) session.getAttribute("checkDn");
-					String tendn = (String)session.getAttribute("tendn");
-					if (checkDn) {
-					%>
-					<li class="nav-item"><a class="nav-link" href=""><span class="glyphicon glyphicon-user"></span>
-							xin chao <%=tendn%></a></li>
-					<%
-
-					} else {
-					%>
+				<li class="nav-item" type="button" data-bs-toggle="modal" data-bs-target="#myModal"><a class="nav-link"><span
+							class="glyphicon glyphicon-user"></span>Đăng kí</a></li>
 					<li class="nav-item" type="button" data-bs-toggle="modal" data-bs-target="#myModal"><a class="nav-link"><span
 							class="glyphicon glyphicon-user"></span>Đăng nhập</a></li>
-					<%
-					}
-					%>
 					<li class="nav-item"><a class="nav-link" href="logoutController"><span
 							class="glyphicon glyphicon-log-in"></span>Đăng xuất</a></li>
 				</ul>
@@ -79,51 +75,5 @@ pageEncoding="UTF-8"%>
 			</div>
 		</div>
 	</div>
-	
-	
-<!-- MODAL DĂNG KÍ -->	
-<div class="modal fade" id="signup" role="dialog">
-		<div class="modal-dialog modal-style">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="text-primary">Sign up</h3>
-				</div>
-				<div class="modal-body">
-					<div class="mx-auto">
-						<form class="container border py-4 border-info" action="DangKyController" method="get">
-							<div class="mb-3">
-							    <label for="pwd" class="form-label">Họ tên:</label>
-							    <input type="text" class="form-control" placeholder="Enter họ tên" name="dangKyHoTen">
-							 </div>
-							 <div class="mb-3">
-							    <label for="pwd" class="form-label">Địa chỉ:</label>
-							    <input type="text" class="form-control" id="pwd" placeholder="Enter địa chỉ" name="dangKyDiaChi">
-							  </div>
-							  <div class="mb-3">
-							    <label for="pwd" class="form-label">Số điện thoại:</label>
-							    <input type="text" class="form-control" id="pwd" placeholder="Enter số điện thoại" name="dangKySdt">
-							  </div>
-							  <div class="mb-3">
-							    <label for="pwd" class="form-label">Email:</label>
-							    <input type="text" class="form-control" id="pwd" placeholder="Enter email" name="dangKyEmail">
-							  </div>
-							  <div class="mb-3">
-							    <label for="pwd" class="form-label">Tên đăng nhập:</label>
-							    <input type="text" class="form-control" id="pwd" placeholder="Enter tên đăng nhập" name="dangKyTenDn">
-							  </div>
-							  <div class="mb-3">
-							    <label for="pwd" class="form-label">Password:</label>
-							    <input type="text" class="form-control" id="pwd" placeholder="Enter password" name="dangKyPass">
-							  </div>	
-							  <div class="text-center">
-							    <button type="submit" class="btn btn-primary" name="btnDangKy">Xác nhận</button>
-							  </div>	
-						</form>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+</body>
+</html>

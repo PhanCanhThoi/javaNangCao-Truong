@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,22 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import DangNhapModal.DangNhap;
-import DangNhapModal.DangNhapBo;
+import KhachHangModal.KhachHang;
+import KhachHangModal.KhachHangBo;
 
 /**
- * Servlet implementation class DangNhapController
+ * Servlet implementation class DangKyControllẻ
  */
-@WebServlet("/DangNhapController")
-public class DangNhapController extends HttpServlet {
+@WebServlet("/DangKyController")
+public class DangKyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DangNhapController() {
+    public DangKyController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +31,21 @@ public class DangNhapController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				//dang nhap
-		HttpSession session = request.getSession();
-		String tendn = request.getParameter("txtTenDn");
-		String mk = request.getParameter("txtMk");
-		DangNhapBo dnBo = new DangNhapBo();
-		ArrayList<DangNhap> ds = dnBo.getDangNhap();
-		for(DangNhap dn : ds) {
-			if(dn.getTenDn().equals(tendn) && dn.getMatKhau().equals(mk))
+		if(request.getParameter("btnDangKy")!=null) {
+			KhachHangBo khBo = new KhachHangBo();
+			String hoten = request.getParameter("dangKyHoTen");
+			String diachi = request.getParameter("dangKyDiaChi");
+			String Sodt = request.getParameter("dangKySdt");
+			String email = request.getParameter("dangKyEmail");
+			String tendn = request.getParameter("dangKyTenDn");
+			String pass = request.getParameter("dangPass");
+//			String password = khBo.HashMatKhau(pass);
+			if(hoten!=null && tendn!=null && pass!=null) {
+				KhachHang kh = new KhachHang(0, hoten, diachi, Sodt, email, tendn, pass);
+				khBo.addKhachHang(kh);
+			}
 		}
-		session.setAttribute("tendn", tendn);      
-		session.setAttribute("mk", mk);
+		// TODO Auto-generated method stub
 		RequestDispatcher rd = request.getRequestDispatcher("tc.jsp");
 		rd.forward(request, response);
 	}
